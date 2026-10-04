@@ -1,5 +1,7 @@
-import Inngest from "inngest";
+import { Inngest } from "inngest";
 
+// Safe fallback creation for build compatibility
+export const inngest = new (Inngest as any)({ id: "ndsourced" });
 // Create Inngest client
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_ID,
