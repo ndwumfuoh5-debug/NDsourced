@@ -22,9 +22,9 @@ const FOCUS_AREAS = [
 ];
 
 const STATS = [
-  { label: "Stage", value: "Pre-seed to A" },
+  { label: "Stage", value: "Pre-seed → A" },
   { label: "Geography", value: "US-focused" },
-  { label: "Check size", value: "$25K-$250K" },
+  { label: "Check size", value: "$25K–$250K" },
   { label: "Response", value: "2 weeks" },
 ];
 
@@ -55,6 +55,7 @@ function FocusCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {/* Ghost icon top-right */}
       <div
         className="absolute top-4 right-4 pointer-events-none"
         aria-hidden="true"
@@ -84,6 +85,8 @@ export function AboutSection() {
       }}
     >
       <div className="max-w-7xl mx-auto">
+
+        {/* Section header */}
         <div className="mb-16">
           <div
             className="inline-flex items-center text-slate-500 text-xs px-4 py-1.5 rounded-full border mb-5"
@@ -108,12 +111,14 @@ export function AboutSection() {
           </div>
         </div>
 
+        {/* Focus area cards */}
         <div id="focus" className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
           {FOCUS_AREAS.map((area) => (
             <FocusCard key={area.title} {...area} />
           ))}
         </div>
 
+        {/* Stats strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {STATS.map((stat) => (
             <div

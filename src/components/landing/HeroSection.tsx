@@ -20,6 +20,7 @@ export function HeroSection() {
         className="absolute inset-0 pointer-events-none overflow-hidden"
         aria-hidden="true"
       >
+        {/* Orb 1 */}
         <div
           className="absolute"
           style={{
@@ -34,6 +35,7 @@ export function HeroSection() {
             animation: "float 7s ease-in-out infinite alternate",
           }}
         />
+        {/* Orb 2 */}
         <div
           className="absolute"
           style={{
@@ -48,6 +50,7 @@ export function HeroSection() {
             animation: "float 9s ease-in-out infinite alternate-reverse",
           }}
         />
+        {/* Orb 3 */}
         <div
           className="absolute"
           style={{
@@ -62,6 +65,7 @@ export function HeroSection() {
             animation: "float 11s ease-in-out infinite",
           }}
         />
+        {/* Orb 4 */}
         <div
           className="absolute"
           style={{
@@ -93,7 +97,10 @@ export function HeroSection() {
           }}
         >
           <div className="flex flex-col gap-8">
+
+            {/* Left content — full width */}
             <div className="max-w-3xl">
+              {/* Headline */}
               <h1
                 className="font-bold text-[#1a1f2e] leading-tight tracking-tight mb-4"
                 style={{ fontSize: "clamp(3rem, 7vw, 6rem)" }}
@@ -101,10 +108,12 @@ export function HeroSection() {
                 Sourcing the next generation of health innovation.
               </h1>
 
+              {/* Thesis line */}
               <p className="text-slate-600 text-base font-medium mb-8">
                 Interested in companies that improve healthcare access, costs, and outcomes.
               </p>
 
+              {/* CTAs + Stage pill in one row */}
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={() => scrollTo("submit")}

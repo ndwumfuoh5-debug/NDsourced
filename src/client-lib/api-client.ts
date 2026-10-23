@@ -47,6 +47,8 @@ const fetcher = (url: string) =>
     return r.json();
   });
 
+// Always hit the Vybe-hosted app URL directly so submissions work
+// from any custom domain (e.g. ndsourced.com)
 const API_BASE = 'https://source-cay.vybe.build';
 
 export function useSubmissions() {

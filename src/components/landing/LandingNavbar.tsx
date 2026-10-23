@@ -28,6 +28,7 @@ export function LandingNavbar() {
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-14 px-6 md:px-10">
+        {/* Left: About link pill */}
         <Link
           href="/about"
           style={{ background: "rgba(255,255,255,0.3)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.5)", color: "#1a1f2e" }}
@@ -36,8 +37,10 @@ export function LandingNavbar() {
           About
         </Link>
 
+        {/* Center: nav links */}
         <div className="flex items-center gap-6" />
 
+        {/* Right: CTA pill */}
         <button
           onClick={() => scrollTo("submit")}
           style={{ background: "linear-gradient(135deg, #7c6fcd 0%, #5b8dee 100%)", boxShadow: "0 4px 16px rgba(100,110,220,0.35)" }}

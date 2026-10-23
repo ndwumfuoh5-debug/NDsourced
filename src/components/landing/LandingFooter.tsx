@@ -14,7 +14,10 @@ export function LandingFooter() {
       }}
     >
       <div className="max-w-7xl mx-auto">
+
+        {/* Top row */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-white/10 pb-10 mb-8">
+          {/* Right: icon links */}
           <div className="flex items-center gap-6">
             <a
               href="https://www.linkedin.com/in/nana-dwumfuoh-b00705119/" target="_blank" rel="noopener noreferrer"
@@ -33,12 +36,13 @@ export function LandingFooter() {
           </div>
         </div>
 
+        {/* Bottom bar */}
         <p className="text-white/20 text-xs">
-          &copy; {new Date().getFullYear()} &middot; All submissions are confidential
+          © {new Date().getFullYear()} · All submissions are confidential
         </p>
         <p className="text-white/20 text-xs mt-2 max-w-xl text-left">
-          NDsourced is an independent, personal deal-sourcing initiative.
-        </p>
+  NDsourced is an independent, personal deal-sourcing initiative.
+</p>
       </div>
     </footer>
   );

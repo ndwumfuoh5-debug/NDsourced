@@ -21,8 +21,10 @@ function err(msg: string, status = 500) {
 
 export async function POST(request: Request) {
   try {
+    // 1. Parse body
     const body = await request.json() as Record<string, unknown>;
 
+    // 2. Required fields
     const required = [
       'founder_name','founder_email','company_name','one_liner',
       'sector','arr_bucket','fda_clearance','stage','round_size',
@@ -32,6 +34,7 @@ export async function POST(request: Request) {
     }
     if (!body.consent) return err('consent is required', 400);
 
+    // 3. Quick-scan tag
     const CORE_TAGS = new Set([
       "Care Coordination & Navigation","Data & Interoperability","Diagnostics & Screening",
       "Direct Care & Clinical Delivery","Mental & Behavioral Health","Prevention & Wellness",
@@ -42,13 +45,14 @@ export async function POST(request: Request) {
     const arr = String(body.arr_bucket ?? '');
     const fda = String(body.fda_clearance ?? '');
     const fit = Array.isArray(body.strategic_fit) ? (body.strategic_fit as string[]) : [];
-    const arrOk = arr === '$1M-$5M' || arr === '$5M+';
+    const arrOk = arr === '$1M–$5M' || arr === '$5M+';
     const fdaOk = fda === 'No';
     const themeOk = fit.filter((f) => CORE_TAGS.has(f)).length >= 1;
     let tag = 'Possible fit';
     if (arrOk && fdaOk && themeOk) tag = 'Core fit';
     else if (arr === 'Pre-revenue' || fda === 'Yes' || fit.length === 0) tag = 'Outside current focus';
 
+    // 4. Insert
     const rows = await queryInternalDatabase(
       `INSERT INTO pitch_submissions
         (founder_name, founder_email, founder_linkedin, company_name, company_website,
@@ -76,6 +80,7 @@ export async function POST(request: Request) {
       ],
     );
 
+    // 5. Emails (fire-and-forget — never block or fail the response)
     const row = rows[0] as { id: string; company_name: string; founder_email: string };
     void sendEmails(body, row, tag);
 
@@ -83,6 +88,7 @@ export async function POST(request: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : JSON.stringify(e);
     console.error('POST /api/submissions error:', msg);
+    // Write error to DB so we can read it
     try {
       await queryInternalDatabase(
         `INSERT INTO api_errors (route, error_msg) VALUES ($1, $2)`,
@@ -110,6 +116,8 @@ export async function GET() {
     return err(msg);
   }
 }
+
+// ── Email helpers ─────────────────────────────────────────────────────────────
 
 async function sendEmails(
   body: Record<string, unknown>,
@@ -140,7 +148,7 @@ async function sendEmails(
       body: JSON.stringify({
         from,
         to: admin,
-        subject: `New submission: ${row.company_name} -- ${tag}`,
+        subject: `New submission: ${row.company_name} — ${tag}`,
         html: `<p><strong>Company:</strong> ${String(body.company_name ?? '')}</p>
                <p><strong>Founder:</strong> ${String(body.founder_name ?? '')} (${row.founder_email})</p>
                <p><strong>ARR:</strong> ${String(body.arr_bucket ?? '')}</p>

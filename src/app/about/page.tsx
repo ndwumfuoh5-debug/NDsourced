@@ -19,6 +19,7 @@ export default function AboutPage() {
         animation: "aurora 8s ease-in-out infinite alternate",
       }}
     >
+      {/* Navbar (minimal) */}
       <nav
         className="sticky top-0 z-50"
         style={{
@@ -53,6 +54,7 @@ export default function AboutPage() {
         </div>
       </nav>
 
+      {/* Content */}
       <div className="flex-1 flex items-center justify-center px-6 py-20">
         <div
           className="w-full max-w-2xl p-10 md:p-14"
@@ -67,6 +69,7 @@ export default function AboutPage() {
           }}
         >
           <div className="flex flex-col sm:flex-row gap-10 items-start">
+            {/* Photo */}
             <div className="flex-shrink-0">
               <div
                 className="w-48 rounded-2xl overflow-hidden flex-shrink-0"
@@ -85,6 +88,7 @@ export default function AboutPage() {
               </div>
             </div>
 
+            {/* Text */}
             <div className="flex-1 min-w-0">
               <p className="text-xs tracking-widest uppercase text-slate-400 font-medium mb-2">
                 About
@@ -101,6 +105,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
+              {/* LinkedIn */}
               <a
                 href="https://linkedin.com/in/nana-dwumfuoh-b00705119"
                 target="_blank"

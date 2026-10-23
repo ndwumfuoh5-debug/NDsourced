@@ -5,6 +5,8 @@ import { Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createSubmission } from "@/client-lib/api-client";
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
 const SECTORS = [
   "Digital Health",
   "Health AI",
@@ -22,24 +24,24 @@ const STAGES = ["Pre-Seed", "Seed", "Series A", "Series B+"];
 
 const ROUND_SIZES = [
   "Under $500K",
-  "$500K-$1M",
-  "$1M-$3M",
-  "$3M-$5M",
-  "$5M-$10M",
-  "$10M-$25M",
+  "$500K–$1M",
+  "$1M–$3M",
+  "$3M–$5M",
+  "$5M–$10M",
+  "$10M–$25M",
   "$25M+",
 ];
 
 const AMOUNT_COMMITTED = [
   "Nothing yet",
   "Under $100K",
-  "$100K-$500K",
-  "$500K-$1M",
+  "$100K–$500K",
+  "$500K–$1M",
   "$1M+",
   "Fully committed (looking for strategic)",
 ];
 
-const ARR_BUCKETS = ["Pre-revenue", "<$1M", "$1M-$5M", "$5M+"];
+const ARR_BUCKETS = ["Pre-revenue", "<$1M", "$1M–$5M", "$5M+"];
 
 const FDA_OPTIONS = ["Yes", "No", "Unsure"];
 
@@ -60,6 +62,8 @@ const STRATEGIC_FIT_OPTIONS = [
   "Workforce & Staffing",
   "Other",
 ];
+
+// ─── Form Types ───────────────────────────────────────────────────────────────
 
 interface FormData {
   founder_name: string;
@@ -96,6 +100,8 @@ const emptyForm: FormData = {
   strategic_fit: [],
   consent: false,
 };
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
@@ -242,6 +248,8 @@ function SuccessState({ onReset }: { onReset: () => void }) {
   );
 }
 
+// ─── Main Form ────────────────────────────────────────────────────────────────
+
 export function PitchForm() {
   const [form, setForm] = useState<FormData>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
@@ -270,6 +278,7 @@ export function PitchForm() {
     if (!form.fda_clearance) e.fda_clearance = "Required";
     if (!form.stage) e.stage = "Required";
     if (!form.round_size) e.round_size = "Required";
+    // pitch_deck_url is optional
     if (form.strategic_fit.length === 0) e.strategic_fit = "Select at least one";
     if (!form.consent) e.consent = "Consent required to submit";
     setErrors(e);
@@ -305,7 +314,7 @@ export function PitchForm() {
         ? `${err.message} [origin: ${typeof window !== 'undefined' ? window.location.origin : 'unknown'}]`
         : String(err);
       toast.error("Submission failed", {
-        description: msg || "Unknown error -- please try again.",
+        description: msg || "Unknown error — please try again.",
         duration: 30000,
       });
       console.error('Submission error full:', err);
@@ -328,6 +337,8 @@ export function PitchForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-1">
+
+      {/* 01 — About You */}
       <SectionDivider number="01" label="About You" />
       <div className="space-y-4 pt-2 pb-4">
         <div>
@@ -348,6 +359,7 @@ export function PitchForm() {
         </div>
       </div>
 
+      {/* 02 — Company Profile */}
       <SectionDivider number="02" label="Company Profile" />
       <div className="space-y-4 pt-2 pb-4">
         <div>
@@ -373,14 +385,14 @@ export function PitchForm() {
           <div>
             <Label required>Sector / Category</Label>
             <SelectField value={form.sector} onChange={(e) => set("sector", e.target.value)} error={errors.sector}>
-              <option value="">Select sector...</option>
+              <option value="">Select sector…</option>
               {SECTORS.map((s) => <option key={s} value={s}>{s}</option>)}
             </SelectField>
           </div>
           <div>
             <Label required>Current ARR</Label>
             <SelectField value={form.arr_bucket} onChange={(e) => set("arr_bucket", e.target.value)} error={errors.arr_bucket}>
-              <option value="">Select ARR...</option>
+              <option value="">Select ARR…</option>
               {ARR_BUCKETS.map((s) => <option key={s} value={s}>{s}</option>)}
             </SelectField>
           </div>
@@ -388,12 +400,13 @@ export function PitchForm() {
         <div>
           <Label required>Does your product require FDA clearance/approval to operate or be sold?</Label>
           <SelectField value={form.fda_clearance} onChange={(e) => set("fda_clearance", e.target.value)} error={errors.fda_clearance}>
-            <option value="">Select...</option>
+            <option value="">Select…</option>
             {FDA_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
           </SelectField>
         </div>
       </div>
 
+      {/* 03 — Strategic Fit */}
       <SectionDivider number="03" label="Strategic Fit" />
       <div className="space-y-4 pt-2 pb-4">
         <div>
@@ -408,20 +421,21 @@ export function PitchForm() {
         </div>
       </div>
 
+      {/* 04 — The Deal */}
       <SectionDivider number="04" label="The Deal" />
       <div className="space-y-4 pt-2 pb-4">
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label required>Stage</Label>
             <SelectField value={form.stage} onChange={(e) => set("stage", e.target.value)} error={errors.stage}>
-              <option value="">Select stage...</option>
+              <option value="">Select stage…</option>
               {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
             </SelectField>
           </div>
           <div>
             <Label required>Round Size Being Raised</Label>
             <SelectField value={form.round_size} onChange={(e) => set("round_size", e.target.value)} error={errors.round_size}>
-              <option value="">Select range...</option>
+              <option value="">Select range…</option>
               {ROUND_SIZES.map((s) => <option key={s} value={s}>{s}</option>)}
             </SelectField>
           </div>
@@ -429,12 +443,13 @@ export function PitchForm() {
         <div>
           <Label>Amount Committed So Far</Label>
           <SelectField value={form.amount_committed} onChange={(e) => set("amount_committed", e.target.value)}>
-            <option value="">Select...</option>
+            <option value="">Select…</option>
             {AMOUNT_COMMITTED.map((s) => <option key={s} value={s}>{s}</option>)}
           </SelectField>
         </div>
       </div>
 
+      {/* 05 — Your Pitch */}
       <SectionDivider number="05" label="Your Pitch" />
       <div className="space-y-4 pt-2 pb-4">
         <div>
@@ -442,11 +457,12 @@ export function PitchForm() {
           <Input type="url" placeholder="https://docsend.com/view/..." value={form.pitch_deck_url}
             onChange={(e) => set("pitch_deck_url", e.target.value)} error={errors.pitch_deck_url} />
           <p className="mt-2 text-xs text-slate-500">
-            Optional &middot; DocSend, Google Drive, or Dropbox link &middot; Private and confidential
+            Optional · DocSend, Google Drive, or Dropbox link · Private and confidential
           </p>
         </div>
       </div>
 
+      {/* 06 — Consent */}
       <SectionDivider number="06" label="Consent" />
       <div className="pt-3 pb-6">
         <label className="flex items-start gap-3 cursor-pointer group">
@@ -476,7 +492,7 @@ export function PitchForm() {
         }}
       >
         {submitting ? (
-          <><Loader2 size={14} className="animate-spin" /> Submitting...</>
+          <><Loader2 size={14} className="animate-spin" /> Submitting…</>
         ) : (
           "Submit"
         )}

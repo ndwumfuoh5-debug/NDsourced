@@ -42,7 +42,7 @@ function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="py-3 border-b border-gray-50 last:border-0">
       <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">{label}</p>
-      <div className="text-sm text-gray-800">{value ?? <span className="text-gray-300 italic">--</span>}</div>
+      <div className="text-sm text-gray-800">{value ?? <span className="text-gray-300 italic">—</span>}</div>
     </div>
   );
 }
@@ -106,6 +106,7 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
       <SheetContent className="w-full sm:max-w-[520px] overflow-y-auto p-0">
+        {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-5 z-10">
           <SheetHeader className="space-y-0">
             <div className="flex items-start justify-between gap-4">
@@ -132,6 +133,7 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
               </div>
             </div>
 
+            {/* Quick-scan tag */}
             {submission.quick_scan_tag && (
               <div className="mt-3">
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${quickScanClass}`}>
@@ -142,7 +144,9 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
           </SheetHeader>
         </div>
 
+        {/* Body */}
         <div className="px-6 py-5 space-y-1">
+          {/* Founder */}
           <SectionTitle>Founder</SectionTitle>
           <InfoRow label="Name" value={submission.founder_name} />
           <InfoRow label="Email" value={
@@ -159,6 +163,7 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
             ) : null
           } />
 
+          {/* Company */}
           <SectionTitle>Company</SectionTitle>
           <InfoRow label="Website" value={
             submission.company_website ? (
@@ -173,6 +178,7 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
           <InfoRow label="Current ARR" value={submission.arr_bucket} />
           <InfoRow label="FDA Clearance Required" value={submission.fda_clearance} />
 
+          {/* Strategic Fit */}
           <SectionTitle>Strategic Fit</SectionTitle>
           <InfoRow label="Primary focus areas" value={
             submission.strategic_fit && submission.strategic_fit.length > 0 ? (
@@ -186,11 +192,13 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
             ) : null
           } />
 
+          {/* Deal */}
           <SectionTitle>Deal</SectionTitle>
           <InfoRow label="Stage" value={submission.stage} />
           <InfoRow label="Round Size" value={submission.round_size} />
           <InfoRow label="Amount Committed" value={submission.amount_committed} />
 
+          {/* Pitch */}
           <SectionTitle>Pitch</SectionTitle>
           <InfoRow label="Pitch Deck" value={
             submission.pitch_deck_url ? (
@@ -204,7 +212,7 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
               </a>
             ) : null
           } />
-
+          {/* Meta */}
           <SectionTitle>Meta</SectionTitle>
           <InfoRow label="Quick-scan Tag" value={
             submission.quick_scan_tag ? (
@@ -215,13 +223,14 @@ export function SubmissionSheet({ submission, open, onClose }: Props) {
           } />
           <InfoRow label="Submitted" value={formattedDate} />
 
+          {/* Notes */}
           <div className="mt-6">
             <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Notes</p>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               onBlur={handleNotesBlur}
-              placeholder="Add private notes about this submission..."
+              placeholder="Add private notes about this submission…"
               rows={4}
               className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-400 resize-none transition-colors"
             />

@@ -14,10 +14,12 @@ export function SubmitSection() {
         animation: "aurora 8s ease-in-out infinite alternate",
       }}
     >
+      {/* Blurred orbs */}
       <div
         className="absolute inset-0 pointer-events-none overflow-hidden"
         aria-hidden="true"
       >
+        {/* Orb 1 */}
         <div
           className="absolute"
           style={{
@@ -32,6 +34,7 @@ export function SubmitSection() {
             animation: "float 8s ease-in-out infinite alternate",
           }}
         />
+        {/* Orb 2 */}
         <div
           className="absolute"
           style={{
@@ -49,6 +52,8 @@ export function SubmitSection() {
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto">
+
+        {/* Section header */}
         <div className="mb-12 text-center">
           <div
             className="inline-flex items-center text-slate-500 text-xs px-4 py-1.5 rounded-full border mb-5"
@@ -59,8 +64,10 @@ export function SubmitSection() {
           <h2 className="text-4xl font-bold text-[#1a1f2e] leading-tight mb-4">
             Share your vision.
           </h2>
+
         </div>
 
+        {/* Frosted glass form card */}
         <div
           className="p-10 md:p-14"
           style={{

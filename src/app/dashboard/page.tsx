@@ -25,6 +25,8 @@ import {
 import { SubmissionSheet } from "@/components/dashboard/SubmissionSheet";
 import { toast } from "sonner";
 
+// ─── Admin password gate ──────────────────────────────────────────────────────
+
 const ADMIN_PASSWORD = "*HlTw2605!";
 
 function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
@@ -69,13 +71,15 @@ function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
 const SECTORS = [
   "Digital Health", "Health AI", "Care Delivery", "Payer Tech",
   "Benefits / Admin", "RCM / Billing", "Regulatory / Compliance Tech",
   "Clinical Ops", "Other",
 ];
 const STAGES = ["Pre-Seed", "Seed", "Series A", "Series B+"];
-const ARR_BUCKETS = ["Pre-revenue", "<$1M", "$1M-$5M", "$5M+"];
+const ARR_BUCKETS = ["Pre-revenue", "<$1M", "$1M–$5M", "$5M+"];
 const FDA_OPTIONS = ["Yes", "No", "Unsure"];
 const QUICK_SCAN_OPTIONS = ["Core fit", "Possible fit", "Outside current focus"];
 
@@ -98,6 +102,8 @@ const QUICK_SCAN_BADGE: Record<string, string> = {
   "Possible fit": "bg-amber-50 text-amber-700",
   "Outside current focus": "bg-rose-50 text-rose-600",
 };
+
+// ─── CSV export ───────────────────────────────────────────────────────────────
 
 function exportCsv(rows: PitchSubmission[]) {
   const headers = [
@@ -127,6 +133,8 @@ function exportCsv(rows: PitchSubmission[]) {
   URL.revokeObjectURL(url);
 }
 
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
 function StatCard({ label, count, accent }: { label: string; count: number; accent: string }) {
   return (
     <div className={`bg-white rounded-xl border border-gray-100 p-5 border-l-4 ${accent}`}>
@@ -154,6 +162,8 @@ function QuickScanBadge({ tag }: { tag: string | null }) {
     </span>
   );
 }
+
+// ─── Dashboard Page ───────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
   const [authed, setAuthed] = useState(() =>
@@ -240,6 +250,7 @@ function DashboardInner() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF9]">
+      {/* Header */}
       <div className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -269,6 +280,7 @@ function DashboardInner() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           <StatCard label="Total" count={stats.total} accent="border-l-gray-300" />
           <StatCard label="Core Fit" count={stats.core_fit} accent="border-l-emerald-400" />
@@ -278,12 +290,14 @@ function DashboardInner() {
           <StatCard label="Pass" count={stats.pass} accent="border-l-rose-400" />
         </div>
 
+        {/* Filters + CSV */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Search */}
           <div className="relative flex-1 min-w-[180px] max-w-xs">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search company or founder..."
+              placeholder="Search company or founder…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-gray-400"
@@ -359,6 +373,7 @@ function DashboardInner() {
             </button>
           )}
 
+          {/* CSV Export */}
           <button
             onClick={() => exportCsv(filtered)}
             disabled={filtered.length === 0}
@@ -369,9 +384,10 @@ function DashboardInner() {
           </button>
         </div>
 
+        {/* Table */}
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
           {isLoading ? (
-            <div className="p-12 text-center text-gray-400 text-sm">Loading submissions...</div>
+            <div className="p-12 text-center text-gray-400 text-sm">Loading submissions…</div>
           ) : error ? (
             <div className="p-12 text-center text-red-500 text-sm">Failed to load submissions.</div>
           ) : filtered.length === 0 ? (
@@ -415,8 +431,8 @@ function DashboardInner() {
                     <TableCell className="hidden md:table-cell">
                       <QuickScanBadge tag={sub.quick_scan_tag} />
                     </TableCell>
-                    <TableCell className="text-xs text-gray-600 hidden lg:table-cell">{sub.arr_bucket ?? "--"}</TableCell>
-                    <TableCell className="text-xs text-gray-600 hidden lg:table-cell">{sub.fda_clearance ?? "--"}</TableCell>
+                    <TableCell className="text-xs text-gray-600 hidden lg:table-cell">{sub.arr_bucket ?? "—"}</TableCell>
+                    <TableCell className="text-xs text-gray-600 hidden lg:table-cell">{sub.fda_clearance ?? "—"}</TableCell>
                     <TableCell className="text-sm text-gray-600 hidden md:table-cell">{sub.stage}</TableCell>
                     <TableCell><StatusBadge status={sub.status} /></TableCell>
                     <TableCell className="text-xs text-gray-400 hidden md:table-cell">
