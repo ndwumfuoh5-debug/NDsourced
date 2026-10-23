@@ -53,13 +53,13 @@ export interface PitchSubmissionUpdate {
 
 export const ARR_OPTIONS = [
   'Pre-revenue',
-  '$1 - $10K',
-  '$10K - $50K',
-  '$50K - $100K',
-  '$100K - $500K',
-  '$500K - $1M',
-  '$1M - $5M',
-  '$5M - $10M',
+  '$1 – $10K',
+  '$10K – $50K',
+  '$50K – $100K',
+  '$100K – $500K',
+  '$500K – $1M',
+  '$1M – $5M',
+  '$5M – $10M',
   '$10M+',
 ];
 
@@ -103,19 +103,19 @@ export const MARKET_OPTIONS = [
 export const TOTAL_RAISED_OPTIONS = [
   'None / Bootstrapped',
   'Under $500K',
-  '$500K - $1M',
-  '$1M - $2M',
-  '$2M - $5M',
-  '$5M - $10M',
+  '$500K – $1M',
+  '$1M – $2M',
+  '$2M – $5M',
+  '$5M – $10M',
   '$10M+',
 ];
 
 export const TEAM_SIZE_OPTIONS = [
   '1 (Solo founder)',
-  '2 - 5',
-  '6 - 10',
-  '11 - 25',
-  '26 - 50',
+  '2 – 5',
+  '6 – 10',
+  '11 – 25',
+  '26 – 50',
   '50+',
 ];
 
