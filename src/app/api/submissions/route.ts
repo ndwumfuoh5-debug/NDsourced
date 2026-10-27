@@ -1,6 +1,9 @@
 import { queryInternalDatabase } from '@/server-lib/internal-db-query';
 import { NextResponse } from 'next/server';
 
+// Public same-origin endpoint for ndsourced.com. The browser never talks to
+// Vybe; this route writes via the server-side database client.
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',

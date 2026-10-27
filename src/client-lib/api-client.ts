@@ -47,20 +47,20 @@ const fetcher = (url: string) =>
     return r.json();
   });
 
-// Always hit the Vybe-hosted app URL directly so submissions work
-// from any custom domain (e.g. ndsourced.com)
-const API_BASE = 'https://source-cay.vybe.build';
+// Same-origin Next.js route. Do not post to *.vybe.build from the browser —
+// custom domains (ndsourced.com) get a CORS/login redirect.
+const SUBMISSIONS_URL = '/api/submissions';
 
 export function useSubmissions() {
-  return useSWR<PitchSubmission[]>('/api/submissions', fetcher);
+  return useSWR<PitchSubmission[]>(SUBMISSIONS_URL, fetcher);
 }
 
 export function useSubmission(id: string) {
-  return useSWR<PitchSubmission>(id ? `/api/submissions/${id}` : null, fetcher);
+  return useSWR<PitchSubmission>(id ? `${SUBMISSIONS_URL}/${id}` : null, fetcher);
 }
 
 export async function createSubmission(data: CreateSubmissionData) {
-  const url = `${API_BASE}/api/submissions`;
+  const url = SUBMISSIONS_URL;
   let res: Response;
   try {
     res = await fetch(url, {

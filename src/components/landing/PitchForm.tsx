@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { createSubmission } from "@/client-lib/api-client";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -290,23 +289,39 @@ export function PitchForm() {
     if (!validate()) return;
     setSubmitting(true);
     try {
-      await createSubmission({
-        founder_name: form.founder_name,
-        founder_email: form.founder_email,
-        founder_linkedin: form.founder_linkedin || null,
-        company_name: form.company_name,
-        company_website: form.company_website || null,
-        one_liner: form.one_liner,
-        sector: form.sector,
-        arr_bucket: form.arr_bucket,
-        fda_clearance: form.fda_clearance,
-        stage: form.stage,
-        round_size: form.round_size,
-        amount_committed: form.amount_committed || null,
-        pitch_deck_url: form.pitch_deck_url,
-        strategic_fit: form.strategic_fit,
-        consent: form.consent,
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          founder_name: form.founder_name,
+          founder_email: form.founder_email,
+          founder_linkedin: form.founder_linkedin || null,
+          company_name: form.company_name,
+          company_website: form.company_website || null,
+          one_liner: form.one_liner,
+          sector: form.sector,
+          arr_bucket: form.arr_bucket,
+          fda_clearance: form.fda_clearance,
+          stage: form.stage,
+          round_size: form.round_size,
+          amount_committed: form.amount_committed || null,
+          pitch_deck_url: form.pitch_deck_url,
+          strategic_fit: form.strategic_fit,
+          consent: form.consent,
+        }),
       });
+      const rawText = await res.text();
+      if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try {
+          const parsed = JSON.parse(rawText) as { error?: string };
+          if (parsed.error?.trim()) detail = parsed.error.trim();
+          else if (rawText.trim()) detail = rawText.slice(0, 300);
+        } catch {
+          if (rawText.trim()) detail = rawText.slice(0, 300);
+        }
+        throw new Error(detail);
+      }
       setSubmittedEmail(form.founder_email);
       setSubmitted(true);
     } catch (err) {
